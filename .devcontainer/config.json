@@ -1,4 +1,7 @@
 {
+  "log": {
+    "loglevel": "info"
+  },
   "inbounds": [
     {
       "port": 443,
@@ -13,6 +16,11 @@
       },
       "streamSettings": {
         "network": "xhttp",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "example.com",
+          "minVersion": "1.2"
+        },
         "xhttpSettings": {
           "mode": "packet-up",
           "path": "/"
@@ -22,7 +30,22 @@
   ],
   "outbounds": [
     {
-      "protocol": "freedom"
+      "protocol": "freedom",
+      "settings": {},
+      "streamSettings": {
+        "sockopt": {
+          "tcpKeepAliveIdle": 300
+        }
+      }
     }
-  ]
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "freedom",
+        "ip": ["0.0.0.0/0", "::/0"]
+      }
+    ]
+  }
 }
