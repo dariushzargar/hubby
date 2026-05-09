@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN chmod +x /app/install.sh && /app/install.sh
 COPY config.json /etc/config.json
+COPY show-vless.sh /usr/local/bin/show-vless.sh
 
-RUN echo 'echo -e "\n✅ VLESS LINK:\nvless://550e8400-e29b-41d4-a716-446655440000@94.130.50.12:443?encryption=none&security=tls&type=xhttp&mode=packet-up&sni=${CODESPACE_NAME}-443.app.github.dev&path=%2F#ghtun"' >> /etc/bash.bashrc
+RUN chmod +x /usr/local/bin/show-vless.sh \
+    && echo '/usr/local/bin/show-vless.sh' >> /etc/bash.bashrc
 
 CMD ["/usr/local/bin/xray", "-c", "/etc/config.json"]
